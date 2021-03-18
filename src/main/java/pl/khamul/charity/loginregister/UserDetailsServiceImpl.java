@@ -26,15 +26,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email){
-        User user = userRepository.findFirstByEmail(email);
+        User user = userRepository.findFirstByEmail(email).get();
 
         if (user != null) {
             Set<GrantedAuthority> authorities = new HashSet<>();
-            if (Objects.equals(email, "admin")) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            }else {
-                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            }
+            user.getRole().forEach(r -> authorities.add(new SimpleGrantedAuthority(r.getName())));
 
             return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
         }else{

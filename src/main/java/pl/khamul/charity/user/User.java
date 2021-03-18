@@ -1,9 +1,9 @@
 package pl.khamul.charity.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import pl.khamul.charity.role.Role;
+
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -19,7 +19,8 @@ public class User {
 
     private String password;
 
-    private String role;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Role> role;
 
 
     public Long getId() {
@@ -54,11 +55,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Set<Role> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Set<Role> role) {
         this.role = role;
     }
 }

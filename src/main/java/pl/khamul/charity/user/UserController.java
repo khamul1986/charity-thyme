@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.khamul.charity.exception.UserAlreadyExistsException;
 import pl.khamul.charity.loginregister.RegistrationService;
@@ -55,6 +56,17 @@ public class UserController {
         }
 
         return new ModelAndView("/confirm", "user", userDto);
+    }
+
+    @RequestMapping("/user")
+    public  String userPanel(){
+        return "/user/user";
+
+    }
+
+    @RequestMapping("/admin")
+    public String adminPanel(){
+        return "/admin/admin";
     }
 
 }

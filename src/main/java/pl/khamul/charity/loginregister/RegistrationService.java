@@ -4,22 +4,28 @@ package pl.khamul.charity.loginregister;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.khamul.charity.exception.UserAlreadyExistsException;
+import pl.khamul.charity.role.Role;
+import pl.khamul.charity.role.RoleRepository;
 import pl.khamul.charity.user.User;
 import pl.khamul.charity.user.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.HashSet;
 
 @Service
 public class RegistrationService implements RegistrationServiceInterface {
 
 
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder encoder;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
+    private final RoleRepository roleRepository;
 
 
-    public RegistrationService(UserRepository userRepository, BCryptPasswordEncoder encoder) {
+    public RegistrationService(UserRepository userRepository, BCryptPasswordEncoder encoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.encoder = encoder;
+        this.roleRepository = roleRepository;
     }
 
     @Transactional
@@ -35,8 +41,11 @@ public class RegistrationService implements RegistrationServiceInterface {
 
         String encodedPass = encoder.encode(user.getPassword());
 
+
         user.setPassword(encodedPass);
-        user.setRole("ROLE_USER");
+        Role role =roleRepository.findByName("ROLE_USER");
+        user.setRole(new HashSet<>(Arrays.asList(role)));
+
 
         return userRepository.save(user);
     }
