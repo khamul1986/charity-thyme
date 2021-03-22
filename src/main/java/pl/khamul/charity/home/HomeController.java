@@ -46,4 +46,9 @@ public class HomeController {
         model.addAttribute("categories", categories);
         return "donationForm";
     }
+
+    @RequestMapping("/403")
+    public String accessDenied() {
+        return "/403";
+    }
 }

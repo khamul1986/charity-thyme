@@ -1,10 +1,13 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div th:insert="fragments/header"></div>
 panel administratora
+<a th:href="@{/admin/institution/add}">Dodaj fundację</a>
 </body>
 </html>

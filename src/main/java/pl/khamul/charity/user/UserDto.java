@@ -6,6 +6,7 @@ import pl.khamul.charity.validator.ValidPassword;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @ValidPassword
 public class UserDto {
@@ -16,7 +17,9 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
+ /*   @Pattern(regexp = "(^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$)")*/
     private String password;
+
     private String matchingPassword;
 
     @ValidEmail

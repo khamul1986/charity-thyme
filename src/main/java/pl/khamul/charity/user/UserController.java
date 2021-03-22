@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerUserAccount(
+    public String registerUserAccount(
             @ModelAttribute("user") @Valid UserDto userDto) {
         User user = new User();
         user.setUserName(userDto.getUserName());
@@ -50,12 +50,11 @@ public class UserController {
         try {
             registrationService.registerNewUserAccount(user);
         } catch (UserAlreadyExistsException uaeEx) {
-            ModelAndView mav = new ModelAndView();
-            mav.addObject("message", "Ten Adres email jest juz zarejestrowany");
-            return mav;
+
+            return "error";
         }
 
-        return new ModelAndView("/confirm", "user", userDto);
+        return "confirm";
     }
 
     @RequestMapping("/user")

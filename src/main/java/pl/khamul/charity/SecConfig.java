@@ -67,7 +67,7 @@ public class SecConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/user/403");
+                .exceptionHandling().accessDeniedPage("/403");
 
     }
 
@@ -75,6 +75,6 @@ public class SecConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**"); // #3
+                .antMatchers("/resources/**");
     }
 }

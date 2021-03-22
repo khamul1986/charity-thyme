@@ -36,9 +36,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             return;
         }
 
-
-
-
         final Role adminRole = createRoleIfNotFound("ROLE_ADMIN");
         final Role userRole = createRoleIfNotFound("ROLE_USER");
 
@@ -64,15 +61,17 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     @Transactional
     User createUserIfNotFound(final String email, final String userName, final String password, final Set<Role> roles) {
-        User user = userRepository.findFirstByEmail(email).orElse(null);
-        if (user == null) {
-            user = new User();
+        User user = new User();
+        if (userRepository.findFirstByEmail(email).isPresent()) {
+
+            user = userRepository.findFirstByEmail(email).get();
             user.setUserName(userName);
             user.setPassword(passwordEncoder.encode(password));
             user.setEmail(email);
+            user.setRole(roles);
+            user = userRepository.save(user);
         }
-        user.setRole(roles);
-        user = userRepository.save(user);
+
         return user;
     }
 

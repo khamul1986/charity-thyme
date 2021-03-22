@@ -33,7 +33,7 @@ public class RegistrationService implements RegistrationServiceInterface {
     public User registerNewUserAccount(User user)
             throws UserAlreadyExistsException {
 
-        if (emailExists(user.getEmail())) {
+        if (userRepository.findFirstByEmail(user.getEmail()).isPresent()) {
             throw new UserAlreadyExistsException(
                     "Ten adres jest juz w bazie"
                             + user.getEmail());
@@ -44,14 +44,11 @@ public class RegistrationService implements RegistrationServiceInterface {
 
         user.setPassword(encodedPass);
         Role role =roleRepository.findByName("ROLE_USER");
-        user.setRole(new HashSet<>(Arrays.asList(role)));
-
+        HashSet<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRole(roles);
 
         return userRepository.save(user);
-    }
-
-    private boolean emailExists(String email) {
-        return userRepository.findFirstByEmail(email) != null;
     }
 
 }

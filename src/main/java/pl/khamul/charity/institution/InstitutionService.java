@@ -16,4 +16,8 @@ public class InstitutionService implements InstitutionInterface{
     public List<Institution> institutionList(){
       return  institutionRepository.findAll();
     }
+
+    public void saveInstitution(Institution institution){
+        institutionRepository.save(institution);
+    }
 }
